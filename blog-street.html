@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Уличная фотография — Никс Фотограф</title>
+    <link rel="stylesheet" href="theme.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; background: var(--bg-light); color: var(--text-dark); overflow-x: hidden; }
+        h1, h2, h3 { font-family: 'Playfair Display', Georgia, 'Times New Roman', serif; font-weight: 700; line-height: 1.2; }
+        .navbar { position: fixed; top: 0; width: 100%; background: var(--bg-light); backdrop-filter: blur(15px) saturate(180%); z-index: 10000; padding: 0.5rem 0; border-bottom: 1px solid rgba(245,158,11,0.1); transition: all 0.3s ease; }
+        .navbar.scrolled { box-shadow: var(--shadow-light); padding: 0.3rem 0; border-bottom: 1px solid rgba(245,158,11,0.3); }
+        .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: center; align-items: center; }
+        .nav-logo { margin-right: 50px; }
+        .nav-logo a { display: flex; align-items: center; text-decoration: none; }
+        .nav-logo img { height: 84px; width: auto; transition: all 0.3s; }
+        .nav-logo:hover img { transform: scale(1.1) rotate(5deg); filter: drop-shadow(0 0 10px rgba(245,158,11,0.5)); }
+        .nav-menu { display: flex; list-style: none; gap: 2rem; }
+        .nav-link { text-decoration: none; color: var(--text-light); font-weight: 500; position: relative; transition: all 0.3s; padding: 5px 10px; border-radius: 8px; }
+        .nav-link::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--gradient-secondary); opacity: 0; border-radius: 8px; transition: opacity 0.3s; z-index: -1; }
+        .nav-link::after { content: ''; position: absolute; bottom: -5px; left: 50%; width: 0; height: 2px; background: var(--gradient-secondary); transition: all 0.3s; transform: translateX(-50%); }
+        .nav-link:hover::before { opacity: 0.1; }
+        .nav-link:hover::after, .nav-link.active::after { width: 80%; }
+        .nav-link:hover, .nav-link.active { color: var(--text-dark); transform: translateY(-2px); text-shadow: var(--shadow-glow); }
+        .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 4px; }
+        .hamburger span { width: 25px; height: 3px; background: var(--primary-color); transition: all 0.3s; }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -6px); }
+        @media (max-width: 768px) {
+            .nav-container { justify-content: space-between; }
+            .nav-logo { margin-right: 0; }
+            .hamburger { display: flex; z-index: 1001; }
+            .nav-menu { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--bg-light); flex-direction: column; justify-content: center; align-items: center; transform: translateX(100%); opacity: 0; visibility: hidden; transition: all 0.4s; }
+            .nav-menu.active { transform: translateX(0); opacity: 1; visibility: visible; }
+            .nav-link { font-size: 1.5rem; padding: 15px 20px; }
+        }
+
+        .container { max-width: 780px; margin: 0 auto; padding: 120px 20px 60px; }
+        .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--secondary-color); text-decoration: none; font-weight: 500; margin-bottom: 2rem; transition: gap 0.2s; }
+        .back-link:hover { gap: 10px; }
+        .post-tag { display: inline-block; background: rgba(245,158,11,0.15); color: var(--secondary-color); font-size: 0.8rem; font-weight: 600; padding: 4px 12px; border-radius: 20px; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        h1 { font-size: 2.6rem; margin-bottom: 1rem; color: var(--text-dark); }
+        .post-meta { color: #71717a; font-size: 0.9rem; margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid rgba(245,158,11,0.15); }
+        .post-cover { width: 100%; height: 300px; background: var(--gradient-secondary); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 6rem; margin-bottom: 2.5rem; }
+        .post-body { background: var(--bg-card); padding: 2.5rem; border-radius: 20px; border: 1px solid rgba(245,158,11,0.15); box-shadow: var(--shadow-medium); animation: fadeIn 0.6s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .post-body p { color: var(--text-light); font-size: 1.1rem; line-height: 1.85; margin-bottom: 1.5rem; }
+        .post-body h2 { color: var(--secondary-color); font-size: 1.5rem; margin: 2rem 0 1rem; }
+        .post-body ul { color: var(--text-light); font-size: 1.05rem; line-height: 1.8; padding-left: 1.5rem; margin-bottom: 1.5rem; }
+        .post-body ul li { margin-bottom: 0.5rem; }
+        .highlight-box { background: rgba(245,158,11,0.08); border-left: 3px solid var(--secondary-color); padding: 1.2rem 1.5rem; border-radius: 0 12px 12px 0; margin: 1.5rem 0; }
+        .highlight-box p { margin: 0; color: var(--text-dark) !important; }
+        .nav-posts { display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem; }
+        .nav-post-link { flex: 1; background: var(--bg-card); padding: 1.2rem 1.5rem; border-radius: 15px; text-decoration: none; border: 1px solid rgba(245,158,11,0.1); transition: all 0.3s; }
+        .nav-post-link:hover { border-color: rgba(245,158,11,0.4); transform: translateY(-3px); }
+        .nav-post-link span { display: block; color: #71717a; font-size: 0.8rem; margin-bottom: 0.3rem; }
+        .nav-post-link strong { color: var(--text-dark); font-size: 0.95rem; }
+        .nav-post-link.next { text-align: right; }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo"><a href="index.html"><img src="images/niks.png" alt="Никс"></a></div>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index.html" class="nav-link">🏠 Главная</a></li>
+                <li><a href="portfolio.html" class="nav-link">📸 Портфолио</a></li>
+                <li><a href="about.html" class="nav-link">👤 О нас</a></li>
+                <li><a href="blog.html" class="nav-link active">📝 Блог</a></li>
+                <li><a href="contact.html" class="nav-link">📞 Контакты</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <a href="blog.html" class="back-link">← Назад в блог</a>
+        <span class="post-tag">Стрит</span>
+        <h1>Уличная фотография: ловим момент</h1>
+        <div class="post-meta">15 декабря 2024 · Артур (Никс)</div>
+        <div class="post-cover" style="padding:0;overflow:hidden">
+            <img src="media/portfolio/photo_2026-01-17_19-54-36.jpg" alt="Улица" style="width:100%;height:100%;object-fit:cover;border-radius:20px" onerror="this.parentElement.style.padding='';this.parentElement.innerHTML='🏙️'">
+        </div>
+        <div class="post-body">
+            <p>Уличная фотография — это искусство видеть необычное в обычном. Каждый выход на улицу с камерой — это охота за моментами, которые больше никогда не повторятся.</p>
+
+            <h2>Что делает уличный снимок сильным</h2>
+            <p>Сильный стрит-снимок — это всегда история. Контраст между людьми и городом, неожиданное совпадение, эмоция на лице прохожего, игра теней. Ищи не просто красивые места, а интересные ситуации.</p>
+
+            <h2>Настройки камеры для улицы</h2>
+            <ul>
+                <li>Режим приоритета выдержки (Tv/S) — ставь 1/250 и быстрее, чтобы заморозить движение</li>
+                <li>ISO 400–800 в пасмурную погоду, 100–200 в солнечный день</li>
+                <li>Диафрагма f/5.6–f/8 — больше глубины резкости, меньше промахов по фокусу</li>
+                <li>Автофокус по зоне или по лицу — для быстрой реакции</li>
+            </ul>
+
+            <div class="highlight-box">
+                <p>💡 Калининград — отличный город для стрит-фото. Старые немецкие здания, набережная, рыбный рынок, Рыбная деревня — везде есть интересные кадры.</p>
+            </div>
+
+            <h2>Как преодолеть стеснение</h2>
+            <p>Многие начинающие боятся снимать людей на улице. Начни с дальних планов — снимай людей как часть городского пейзажа. Потом переходи к средним планам. Улыбка и открытый взгляд помогают — большинство людей реагируют нормально.</p>
+
+            <h2>Лучшее время для съёмки</h2>
+            <ul>
+                <li>Утро — пустые улицы, мягкий свет, туман</li>
+                <li>Вечер пятницы — оживлённые улицы, эмоции</li>
+                <li>Дождь — отражения в лужах, зонты, атмосфера</li>
+                <li>Зима — контрасты снега и тёмных фигур</li>
+            </ul>
+
+            <h2>Главное правило</h2>
+            <p>Всегда носи камеру с собой. Лучший кадр случается тогда, когда ты его не ждёшь. Снимай много — из 100 кадров 1–2 будут действительно хорошими, и это нормально даже для профессионалов.</p>
+
+            <p>Выходи на улицу, исследуй свой город и смотри на него глазами фотографа. Калининград полон историй — нужно только их увидеть.</p>
+        </div>
+
+        <div class="nav-posts">
+            <a href="blog-portrait.html" class="nav-post-link">
+                <span>← Предыдущая</span>
+                <strong>Портретная съёмка: основы композиции</strong>
+            </a>
+            <div></div>
+        </div>
+    </div>
+
+    <script>
+        const navbar = document.getElementById('navbar');
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
+        });
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                hamburger.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+    </script>
+    <script src="theme.js"></script>
+</body>
+</html>

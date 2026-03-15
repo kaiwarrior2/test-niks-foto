@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Портретная съёмка — Никс Фотограф</title>
+    <link rel="stylesheet" href="theme.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; background: var(--bg-light); color: var(--text-dark); overflow-x: hidden; }
+        h1, h2, h3 { font-family: 'Playfair Display', Georgia, 'Times New Roman', serif; font-weight: 700; line-height: 1.2; }
+        .navbar { position: fixed; top: 0; width: 100%; background: var(--bg-light); backdrop-filter: blur(15px) saturate(180%); z-index: 10000; padding: 0.5rem 0; border-bottom: 1px solid rgba(245,158,11,0.1); transition: all 0.3s ease; }
+        .navbar.scrolled { box-shadow: var(--shadow-light); padding: 0.3rem 0; border-bottom: 1px solid rgba(245,158,11,0.3); }
+        .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: center; align-items: center; }
+        .nav-logo { margin-right: 50px; }
+        .nav-logo a { display: flex; align-items: center; text-decoration: none; }
+        .nav-logo img { height: 84px; width: auto; transition: all 0.3s; }
+        .nav-logo:hover img { transform: scale(1.1) rotate(5deg); filter: drop-shadow(0 0 10px rgba(245,158,11,0.5)); }
+        .nav-menu { display: flex; list-style: none; gap: 2rem; }
+        .nav-link { text-decoration: none; color: var(--text-light); font-weight: 500; position: relative; transition: all 0.3s; padding: 5px 10px; border-radius: 8px; }
+        .nav-link::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--gradient-secondary); opacity: 0; border-radius: 8px; transition: opacity 0.3s; z-index: -1; }
+        .nav-link::after { content: ''; position: absolute; bottom: -5px; left: 50%; width: 0; height: 2px; background: var(--gradient-secondary); transition: all 0.3s; transform: translateX(-50%); }
+        .nav-link:hover::before { opacity: 0.1; }
+        .nav-link:hover::after, .nav-link.active::after { width: 80%; }
+        .nav-link:hover, .nav-link.active { color: var(--text-dark); transform: translateY(-2px); text-shadow: var(--shadow-glow); }
+        .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 4px; }
+        .hamburger span { width: 25px; height: 3px; background: var(--primary-color); transition: all 0.3s; }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -6px); }
+        @media (max-width: 768px) {
+            .nav-container { justify-content: space-between; }
+            .nav-logo { margin-right: 0; }
+            .hamburger { display: flex; z-index: 1001; }
+            .nav-menu { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--bg-light); flex-direction: column; justify-content: center; align-items: center; transform: translateX(100%); opacity: 0; visibility: hidden; transition: all 0.4s; }
+            .nav-menu.active { transform: translateX(0); opacity: 1; visibility: visible; }
+            .nav-link { font-size: 1.5rem; padding: 15px 20px; }
+        }
+
+        .container { max-width: 780px; margin: 0 auto; padding: 120px 20px 60px; }
+        .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--secondary-color); text-decoration: none; font-weight: 500; margin-bottom: 2rem; transition: gap 0.2s; }
+        .back-link:hover { gap: 10px; }
+        .post-tag { display: inline-block; background: rgba(245,158,11,0.15); color: var(--secondary-color); font-size: 0.8rem; font-weight: 600; padding: 4px 12px; border-radius: 20px; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        h1 { font-size: 2.6rem; margin-bottom: 1rem; color: var(--text-dark); }
+        .post-meta { color: #71717a; font-size: 0.9rem; margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid rgba(245,158,11,0.15); }
+        .post-cover { width: 100%; height: 300px; background: var(--gradient-secondary); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 6rem; margin-bottom: 2.5rem; }
+        .post-body { background: var(--bg-card); padding: 2.5rem; border-radius: 20px; border: 1px solid rgba(245,158,11,0.15); box-shadow: var(--shadow-medium); animation: fadeIn 0.6s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .post-body p { color: var(--text-light); font-size: 1.1rem; line-height: 1.85; margin-bottom: 1.5rem; }
+        .post-body h2 { color: var(--secondary-color); font-size: 1.5rem; margin: 2rem 0 1rem; }
+        .post-body ul { color: var(--text-light); font-size: 1.05rem; line-height: 1.8; padding-left: 1.5rem; margin-bottom: 1.5rem; }
+        .post-body ul li { margin-bottom: 0.5rem; }
+        .highlight-box { background: rgba(245,158,11,0.08); border-left: 3px solid var(--secondary-color); padding: 1.2rem 1.5rem; border-radius: 0 12px 12px 0; margin: 1.5rem 0; }
+        .highlight-box p { margin: 0; color: var(--text-dark) !important; }
+        .nav-posts { display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem; }
+        .nav-post-link { flex: 1; background: var(--bg-card); padding: 1.2rem 1.5rem; border-radius: 15px; text-decoration: none; border: 1px solid rgba(245,158,11,0.1); transition: all 0.3s; }
+        .nav-post-link:hover { border-color: rgba(245,158,11,0.4); transform: translateY(-3px); }
+        .nav-post-link span { display: block; color: #71717a; font-size: 0.8rem; margin-bottom: 0.3rem; }
+        .nav-post-link strong { color: var(--text-dark); font-size: 0.95rem; }
+        .nav-post-link.next { text-align: right; }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo"><a href="index.html"><img src="images/niks.png" alt="Никс"></a></div>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index.html" class="nav-link">🏠 Главная</a></li>
+                <li><a href="portfolio.html" class="nav-link">📸 Портфолио</a></li>
+                <li><a href="about.html" class="nav-link">👤 О нас</a></li>
+                <li><a href="blog.html" class="nav-link active">📝 Блог</a></li>
+                <li><a href="contact.html" class="nav-link">📞 Контакты</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <a href="blog.html" class="back-link">← Назад в блог</a>
+        <span class="post-tag">Композиция</span>
+        <h1>Портретная съёмка: основы композиции</h1>
+        <div class="post-meta">20 декабря 2024 · Артур (Никс)</div>
+        <div class="post-cover" style="padding:0;overflow:hidden">
+            <img src="media/portfolio/photo_2025-12-28_17-52-51.jpg" alt="Портрет" style="width:100%;height:100%;object-fit:cover;border-radius:20px" onerror="this.parentElement.style.padding='';this.parentElement.innerHTML='🎭'">
+        </div>
+        <div class="post-body">
+            <p>Портрет — один из самых популярных жанров фотографии. Но хороший портрет — это не просто «навёл и снял». Это работа со светом, позой, взглядом и, конечно, композицией.</p>
+
+            <h2>Правило третей</h2>
+            <p>Мысленно раздели кадр на 9 равных частей двумя горизонтальными и двумя вертикальными линиями. Размещай глаза модели на верхней горизонтальной линии — это делает портрет более динамичным и живым по сравнению с центральным расположением.</p>
+
+            <h2>Направление взгляда</h2>
+            <p>Если модель смотрит в сторону — оставляй больше пространства перед лицом, а не за ним. Это создаёт ощущение движения и «дышащего» кадра. Взгляд в объектив — более прямой и эмоциональный контакт со зрителем.</p>
+
+            <div class="highlight-box">
+                <p>💡 Снимай на уровне глаз модели или чуть ниже. Съёмка сверху вниз уменьшает человека, снизу вверх — придаёт силу и монументальность.</p>
+            </div>
+
+            <h2>Работа с фоном</h2>
+            <p>Фон должен дополнять, а не отвлекать. Используй широкую диафрагму (f/1.8–f/2.8) для размытия фона — это выделяет модель и создаёт красивое боке. Следи, чтобы из головы модели не «росли» деревья или столбы.</p>
+
+            <h2>Свет в портрете</h2>
+            <ul>
+                <li>Золотой час (час после рассвета и перед закатом) — мягкий тёплый свет</li>
+                <li>Пасмурный день — равномерный рассеянный свет без жёстких теней</li>
+                <li>Тень от здания в солнечный день — хорошая альтернатива студийному свету</li>
+                <li>Избегай съёмки в полдень — жёсткие тени под глазами и носом</li>
+            </ul>
+
+            <h2>Позирование</h2>
+            <p>Попроси модель слегка повернуться боком — это стройнит. Руки не должны висеть вдоль тела — пусть держат что-то или касаются лица. Главное — создай комфортную атмосферу, тогда эмоции будут настоящими.</p>
+
+            <p>Практикуйся как можно больше. Каждый портрет учит тебя чему-то новому — как работает свет, как люди реагируют на камеру, как поймать настоящий момент.</p>
+        </div>
+
+        <div class="nav-posts">
+            <a href="blog-camera.html" class="nav-post-link">
+                <span>← Предыдущая</span>
+                <strong>Как выбрать первый фотоаппарат</strong>
+            </a>
+            <a href="blog-street.html" class="nav-post-link next">
+                <span>Следующая →</span>
+                <strong>Уличная фотография: ловим момент</strong>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const navbar = document.getElementById('navbar');
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
+        });
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                hamburger.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+    </script>
+    <script src="theme.js"></script>
+</body>
+</html>
