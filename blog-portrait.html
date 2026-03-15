@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Портретная съёмка — Никс Фотограф</title>
+    <title>Уличная фотография — Никс Фотограф</title>
     <link rel="stylesheet" href="theme.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -38,7 +38,7 @@
         }
         .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--gradient-secondary); z-index: 20000; width: 0%; transition: width 0.1s linear; }
         .hero { position: relative; height: 70vh; min-height: 480px; overflow: hidden; display: flex; align-items: flex-end; }
-        .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; transform: scale(1.08); }
+        .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.08); }
         .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.72) 100%); }
         .hero-content { position: relative; z-index: 2; max-width: 860px; margin: 0 auto; padding: 0 24px 3.5rem; width: 100%; animation: heroIn 0.8s ease both; }
         @keyframes heroIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
@@ -70,6 +70,7 @@
         .nav-post-link span { display: block; color: #71717a; font-size: 0.78rem; margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.05em; }
         .nav-post-link strong { color: var(--text-dark); font-size: 0.95rem; line-height: 1.4; display: block; }
         .nav-post-link.next { text-align: right; }
+        .nav-post-link.empty { pointer-events: none; background: transparent; border-color: transparent; box-shadow: none; }
         .sidebar { position: sticky; top: 110px; animation: fadeUp 0.6s 0.4s both; }
         .toc { background: var(--bg-card); border-radius: 18px; padding: 1.5rem; border: 1px solid rgba(245,158,11,0.12); box-shadow: var(--shadow-medium); margin-bottom: 1.5rem; }
         .toc-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--secondary-color); margin-bottom: 1rem; }
@@ -101,15 +102,15 @@
     </nav>
 
     <div class="hero">
-        <img src="media/portfolio/photo_2025-12-28_17-52-51.jpg" alt="Портрет" class="hero-img" id="heroImg"
-             onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#7c3aed,#f59e0b)'">
+        <img src="media/photo_2025-12-28_17-52-51.jpg" alt="Уличная фотография" class="hero-img" id="heroImg"
+             onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#1e3a5f,#f59e0b)'">
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <a href="blog.html" class="hero-back">← Назад в блог</a>
-            <div class="hero-tag">🎭 Композиция</div>
-            <h1>Портретная съёмка: основы композиции</h1>
+            <div class="hero-tag">🏙️ Стрит</div>
+            <h1>Уличная фотография: ловим момент</h1>
             <div class="hero-meta">
-                <span>📅 20 декабря 2024</span>
+                <span>📅 15 декабря 2024</span>
                 <span>✍️ Артур (Никс)</span>
                 <span>⏱ 5 мин чтения</span>
             </div>
@@ -118,49 +119,51 @@
 
     <div class="page-wrap">
         <article class="post-body">
-            <p>Портрет — один из самых популярных жанров фотографии. Но хороший портрет — это не просто «навёл и снял». Это работа со светом, позой, взглядом и, конечно, композицией.</p>
+            <p>Уличная фотография — это искусство видеть необычное в обычном. Каждый выход на улицу с камерой — это охота за моментами, которые больше никогда не повторятся.</p>
 
-            <h2 id="thirds">Правило третей</h2>
-            <p>Мысленно раздели кадр на 9 равных частей двумя горизонтальными и двумя вертикальными линиями. Размещай глаза модели на верхней горизонтальной линии — это делает портрет более динамичным и живым по сравнению с центральным расположением.</p>
+            <h2 id="strong">Что делает уличный снимок сильным</h2>
+            <p>Сильный стрит-снимок — это всегда история. Контраст между людьми и городом, неожиданное совпадение, эмоция на лице прохожего, игра теней. Ищи не просто красивые места, а интересные ситуации.</p>
 
-            <h2 id="gaze">Направление взгляда</h2>
-            <p>Если модель смотрит в сторону — оставляй больше пространства перед лицом, а не за ним. Это создаёт ощущение движения и «дышащего» кадра. Взгляд в объектив — более прямой и эмоциональный контакт со зрителем.</p>
-
-            <div class="highlight-box">
-                <p>💡 Снимай на уровне глаз модели или чуть ниже. Съёмка сверху вниз уменьшает человека, снизу вверх — придаёт силу и монументальность.</p>
-            </div>
-
-            <h2 id="bg">Работа с фоном</h2>
-            <p>Фон должен дополнять, а не отвлекать. Используй широкую диафрагму (f/1.8–f/2.8) для размытия фона — это выделяет модель и создаёт красивое боке. Следи, чтобы из головы модели не «росли» деревья или столбы.</p>
-
-            <figure class="post-photo">
-                <img src="media/portfolio/photo_2025-12-28_17-52-56.jpg" alt="Пример портрета"
-                     onerror="this.parentElement.style.display='none'">
-                <figcaption>Пример портрета с размытым фоном</figcaption>
-            </figure>
-
-            <h2 id="light">Свет в портрете</h2>
+            <h2 id="settings">Настройки камеры для улицы</h2>
             <ul>
-                <li>Золотой час (час после рассвета и перед закатом) — мягкий тёплый свет</li>
-                <li>Пасмурный день — равномерный рассеянный свет без жёстких теней</li>
-                <li>Тень от здания в солнечный день — хорошая альтернатива студийному свету</li>
-                <li>Избегай съёмки в полдень — жёсткие тени под глазами и носом</li>
+                <li>Режим приоритета выдержки (Tv/S) — ставь 1/250 и быстрее, чтобы заморозить движение</li>
+                <li>ISO 400–800 в пасмурную погоду, 100–200 в солнечный день</li>
+                <li>Диафрагма f/5.6–f/8 — больше глубины резкости, меньше промахов по фокусу</li>
+                <li>Автофокус по зоне или по лицу — для быстрой реакции</li>
             </ul>
 
-            <h2 id="pose">Позирование</h2>
-            <p>Попроси модель слегка повернуться боком — это стройнит. Руки не должны висеть вдоль тела — пусть держат что-то или касаются лица. Главное — создай комфортную атмосферу, тогда эмоции будут настоящими.</p>
+            <div class="highlight-box">
+                <p>💡 Калининград — отличный город для стрит-фото. Старые немецкие здания, набережная, рыбный рынок, Рыбная деревня — везде есть интересные кадры.</p>
+            </div>
 
-            <p>Практикуйся как можно больше. Каждый портрет учит тебя чему-то новому — как работает свет, как люди реагируют на камеру, как поймать настоящий момент.</p>
+            <figure class="post-photo">
+                <img src="media/photo_2025-12-28_17-52-51.jpg" alt="Уличная съёмка Калининград"
+                     onerror="this.parentElement.style.display='none'">
+                <figcaption>Калининград — город с характером</figcaption>
+            </figure>
+
+            <h2 id="shy">Как преодолеть стеснение</h2>
+            <p>Многие начинающие боятся снимать людей на улице. Начни с дальних планов — снимай людей как часть городского пейзажа. Потом переходи к средним планам. Улыбка и открытый взгляд помогают — большинство людей реагируют нормально.</p>
+
+            <h2 id="time">Лучшее время для съёмки</h2>
+            <ul>
+                <li>Утро — пустые улицы, мягкий свет, туман</li>
+                <li>Вечер пятницы — оживлённые улицы, эмоции</li>
+                <li>Дождь — отражения в лужах, зонты, атмосфера</li>
+                <li>Зима — контрасты снега и тёмных фигур</li>
+            </ul>
+
+            <h2 id="rule">Главное правило</h2>
+            <p>Всегда носи камеру с собой. Лучший кадр случается тогда, когда ты его не ждёшь. Снимай много — из 100 кадров 1–2 будут действительно хорошими, и это нормально даже для профессионалов.</p>
+
+            <p>Выходи на улицу, исследуй свой город и смотри на него глазами фотографа. Калининград полон историй — нужно только их увидеть.</p>
 
             <div class="nav-posts">
-                <a href="blog-camera.html" class="nav-post-link">
+                <a href="blog-portrait.html" class="nav-post-link">
                     <span>← Предыдущая</span>
-                    <strong>Как выбрать первый фотоаппарат</strong>
+                    <strong>Портретная съёмка: основы композиции</strong>
                 </a>
-                <a href="blog-street.html" class="nav-post-link next">
-                    <span>Следующая →</span>
-                    <strong>Уличная фотография: ловим момент</strong>
-                </a>
+                <div class="nav-post-link empty"></div>
             </div>
         </article>
 
@@ -168,15 +171,15 @@
             <div class="toc">
                 <div class="toc-title">Содержание</div>
                 <ul class="toc-list">
-                    <li><a href="#thirds">Правило третей</a></li>
-                    <li><a href="#gaze">Направление взгляда</a></li>
-                    <li><a href="#bg">Работа с фоном</a></li>
-                    <li><a href="#light">Свет в портрете</a></li>
-                    <li><a href="#pose">Позирование</a></li>
+                    <li><a href="#strong">Что делает снимок сильным</a></li>
+                    <li><a href="#settings">Настройки камеры</a></li>
+                    <li><a href="#shy">Как преодолеть стеснение</a></li>
+                    <li><a href="#time">Лучшее время для съёмки</a></li>
+                    <li><a href="#rule">Главное правило</a></li>
                 </ul>
             </div>
             <div class="sidebar-card">
-                <p>Хочешь красивый портрет? Напиши — обсудим идею и место съёмки.</p>
+                <p>Хочешь прогуляться по Калининграду и поснимать вместе?</p>
                 <a href="https://t.me/objektivniksa" class="sidebar-btn" target="_blank">✈️ Написать в Telegram</a>
             </div>
         </aside>
